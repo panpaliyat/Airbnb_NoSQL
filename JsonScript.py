@@ -1,7 +1,9 @@
 import json
+import ast
 
 with open('C:/Users/tusha/Desktop/airbnb-ratings.json') as json_data:
     data = json.load(json_data)
+    arr = []
     for element in data:
 
         if 'datasetid' in element:
@@ -59,8 +61,12 @@ with open('C:/Users/tusha/Desktop/airbnb-ratings.json') as json_data:
 
         if 'notes' in fields_array:
             fields_array.pop('notes')
-
-print('Size ', len(data))
+            
+        if 'host_verifications' in fields_array:
+            fields_array['host_verifications'] = ast.literal_eval(fields_array['host_verifications'])
+        
+        arr.append(fields_array)
+print('Size ', len(arr))
 
 with open('C:/Users/tusha/Desktop/updated_file.json', 'w') as data_file:
-    data = json.dump(data, data_file)
+    data = json.dump(arr, data_file)
