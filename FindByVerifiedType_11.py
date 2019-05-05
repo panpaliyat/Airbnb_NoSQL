@@ -2,21 +2,21 @@ from pymongo import MongoClient
 
 # Connect to MongoDB installed on the locahost
 client = MongoClient(port=27017)
-DB = client.get_database('Airbnb')
-collection = DB.get_collection('Airbnb_data')
+DB = client.get_database('Airbnb_2')
+collection = DB.get_collection('testCollection')
 print("Connected to ",DB)
 
 # 12. Find Host which are verified by Email and Phone both and have identity verified
 
 country_code = input("Enter the country code")
 city = input("Enter the City")
-verified_type = input("Verified Type")
+#verified_type = input("Verified Type")
 record_count = int(input("Number of records to output"))
 
-query = {'fields.country_code' : country_code, 'fields.city' : city, 'fields.host_identity_verified': "True",
-         'fields.host_verifications' : verified_type}
+query = {'country_code' : country_code, 'city' : city, 'host_identity_verified': "True",
+         'host_verifications' : {"$all" : ['email','phone']}}
 
-cursor = collection.find(query,{'_id':0,'fields.listing_url':1,'fields.host_identity_verified':1}).limit(record_count)
+cursor = collection.find(query,{'_id':0,'listing_url':1,'host_verifications':1}).limit(record_count)
 
 print("Found ",cursor.count()," Records")
 
