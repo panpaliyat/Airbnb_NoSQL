@@ -61,6 +61,14 @@ with open('C:/Users/tusha/Desktop/airbnb-ratings.json') as json_data:
 
         if 'notes' in fields_array:
             fields_array.pop('notes')
+        
+        if 'host_acceptance_rate' in fields_array:
+            rate = fields_array['host_acceptance_rate']
+            if rate == 'N/A':
+                rate = -1
+            else:
+                rate = rate.replace('%','')
+            fields_array['host_acceptance_rate'] =  int(rate)            	    
             
         if 'host_verifications' in fields_array:
             fields_array['host_verifications'] = ast.literal_eval(fields_array['host_verifications'])
