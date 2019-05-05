@@ -43,7 +43,7 @@ class Airbnb:
         query = {'country_code' : self.country_code, 'city' : self.city, 
                  'review_scores_cleanliness':10 }
         cursor = self.collection.find(query,{'_id':0,'listing_url':1,'review_scores_cleanliness':1}).limit(self.record_count)
-        print_records(cursor)
+        self.print_records(cursor)
     
     # 2. Count the host listings in San Francisco
     def query2(self):    
@@ -125,9 +125,8 @@ class Airbnb:
 
     # 11. Find Host which are verified by Email and Phone both and have identity verified
     def query11(self):
-        verified_type = input("Verified Type")
         query = {'country_code' : self.country_code, 'city' : self.city, 'host_identity_verified': "True",
-         'host_verifications' : verified_type}
+         'host_verifications' : {"$all" : ['email','phone']}}
         cursor = self.collection.find(query,{'_id':0,'listing_url':1,'host_identity_verified':1}).limit(self.record_count)
         self.print_records(cursor)
     
