@@ -72,6 +72,12 @@ with open('C:/Users/tusha/Desktop/airbnb-ratings.json') as json_data:
             
         if 'host_verifications' in fields_array:
             fields_array['host_verifications'] = ast.literal_eval(fields_array['host_verifications'])
+            
+        if 'host_since' in fields_array:
+            date_ = fields_array['host_since']
+            date_ = str(date_) + 'T23:32:18Z'
+            jsonObject = {'$date': date_};
+            fields_array['host_since'] =  jsonObject 
         
         arr.append(fields_array)
 print('Size ', len(arr))
